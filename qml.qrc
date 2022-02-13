@@ -1,0 +1,57 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>qtquickcontrols2.conf</file>
+        <file>Pages/Home/HomeForm.ui.qml</file>
+        <file>Pages/Pitch/PitchForm.ui.qml</file>
+        <file>Pages/Settings/SettingsForm.ui.qml</file>
+        <file>Components/BottomBarForm.ui.qml</file>
+        <file>Components/DoubleSpinBox.qml</file>
+        <file>Components/Colors.qml</file>
+        <file>Components/BottomBar.qml</file>
+        <file>Components/qmldir</file>
+        <file>Components/FontAwesome/FontAwesomeIconText.qml</file>
+        <file>Components/FontAwesome/FontAwesome.qml</file>
+        <file>Components/FontAwesome/FontAwesomeVariables.qml</file>
+        <file>Components/FontAwesome/FontAwesomeToolButton.qml</file>
+        <file>Components/FontAwesome/FontAwesomeIcon.qml</file>
+        <file>Components/Buttons/SaveResultButton.qml</file>
+        <file>Components/Buttons/AnimatedRecordButtonForm.ui.qml</file>
+        <file>Components/Buttons/RecordButton.qml</file>
+        <file>Components/Buttons/SaveResultButtonForm.ui.qml</file>
+        <file>Components/Buttons/PlayButton.qml</file>
+        <file>Components/Buttons/DeleteButton.qml</file>
+        <file>Components/Buttons/DeleteButtonForm.ui.qml</file>
+        <file>Components/Buttons/OpenFileButton.qml</file>
+        <file>Components/Buttons/OpenFileButtonForm.ui.qml</file>
+        <file>Components/Buttons/PlayButtonForm.ui.qml</file>
+        <file>Components/Buttons/RecordButtonForm.ui.qml</file>
+        <file>Components/Buttons/ShowDetailsButton.qml</file>
+        <file>Components/Buttons/ShowDetailsButtonForm.ui.qml</file>
+        <file>Components/Buttons/AnimatedRecordButton.qml</file>
+        <file>3party/FontAwesome/Font Awesome 5 Free-Regular-400.ttf</file>
+        <file>3party/FontAwesome/Font Awesome 5 Free-Solid-900.ttf</file>
+        <file>3party/FontAwesome/Font Awesome 5 Brands-Regular-400.ttf</file>
+        <file>3party/FontAwesome/Font Awesome 5 Free-Solid-900.otf</file>
+        <file>3party/FontAwesome/Font Awesome 5 Free-Regular-400.otf</file>
+        <file>3party/FontAwesome/Font Awesome 5 Brands-Regular-400.otf</file>
+        <file>Pages/Pitch/Pitch.qml</file>
+        <file>Pages/Settings/Settings.qml</file>
+        <file>Pages/Home/Home.qml</file>
+        <file>App/Enum.qml</file>
+        <file>App/qmldir</file>
+        <file>App/Bus.qml</file>
+        <file>Pages/Record/Record.qml</file>
+        <file>Pages/Record/RecordForm.ui.qml</file>
+        <file>App/Config.qml</file>
+        <file>Assets/Images/speech-icon.png</file>
+        <file>Assets/Images/speech-active-2-icon.png</file>
+        <file>Assets/Images/speech-active-0-icon.png</file>
+        <file>Assets/Images/speech-active-3-icon.png</file>
+        <file>Assets/Images/speech-active-1-icon.png</file>
+        <file>Components/FontAwesome/qmldir</file>
+        <file>Components/SettingItem.qml</file>
+        <file>Components/Buttons/OpenTemplateFileButton.qml</file>
+        <file>Components/Buttons/OpenTemplateFileButtonForm.ui.qml</file>
+    </qresource>
+</RCC>

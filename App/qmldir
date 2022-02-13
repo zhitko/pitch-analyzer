@@ -1,0 +1,4 @@
+# qmldir
+singleton Bus Bus.qml
+singleton Enum Enum.qml
+singleton Config Config.qml
