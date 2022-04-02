@@ -14,6 +14,7 @@ PitchForm {
     property var recordFullOctavesData: []
     property var templateOcatavesData: []
     property var templateFullOcatavesData: []
+    property var octavesCategories: []
     property int recordOctavesMax: 0
     property int recordFullOctavesMax: 0
     property int templateOcatavesMax: 0
@@ -48,7 +49,9 @@ PitchForm {
         if (root.showPitchSeries) showPitch()
 
         showOctaves()
-//        showDerivatives()
+        showDerivatives()
+        showOctavesMetrics()
+        showOctavesMarks()
 
         let pitchMinMax = Bus.getPitchMinMax()
         root.minPitch = pitchMinMax.x
@@ -83,20 +86,21 @@ PitchForm {
         console.log("getOctavesData", data)
         if (data.length === 0) return;
 
-        let filledOctaves = []
+        octavesCategories = []
         let max = 0
         for (let i=0; i< data.length - 1; i++) {
             console.log("value: ", data[i])
-            filledOctaves.push(i+1)
+            octavesCategories.push(i+1)
             recordOctavesData.push(data[i])
             if (data[i] > max) max = data[i]
         }
-        console.log("filledOctaves", filledOctaves)
+        console.log("octavesCategories", octavesCategories)
         console.log("max", max)
 
         recordOctavesMax = data[data.length - 1]
 
-        octavesCategorisX.categories = filledOctaves
+        octavesCategorisX.categories = octavesCategories
+        octavesMarksCategorisX.categories = octavesCategories
         octavesCategorisY.max = max
 
         octavesMax.text = recordOctavesMax
@@ -112,20 +116,21 @@ PitchForm {
         console.log("getFullOctavesData", data)
         if (data.length === 0) return;
 
-        let filledOctaves = []
+        octavesCategories = []
         let max = 0
         for (let i=0; i< data.length - 1; i++) {
             console.log("value: ", data[i])
-            filledOctaves.push(i+1)
+            octavesCategories.push(i+1)
             recordFullOctavesData.push(data[i])
             if (data[i] > max) max = data[i]
         }
-        console.log("filledOctaves", filledOctaves)
+        console.log("octavesCategories", octavesCategories)
         console.log("max", max)
 
         recordFullOctavesMax = data[data.length - 1]
 
-        octavesCategorisX.categories = filledOctaves
+        octavesCategorisX.categories = octavesCategories
+        octavesMarksCategorisX.categories = octavesCategories
         octavesCategorisY.max = max
 
         octavesMax.text = recordFullOctavesMax
@@ -140,22 +145,23 @@ PitchForm {
         let data = Bus.getTemplateOctavesData()
         console.log("getTemplateOctavesData", data)
 
-        let filledOctaves = []
+        octavesCategories = []
         let max = 0
         if (data.length !== 0) {
             for (let i=0; i< data.length - 1; i++) {
                 console.log("value: ", data[i])
-                filledOctaves.push(i+1)
+                octavesCategories.push(i+1)
                 templateOcatavesData.push(data[i])
                 if (data[i] > max) max = data[i]
             }
-            console.log("filledFullOctaves", filledOctaves)
+            console.log("filledFullOctaves", octavesCategories)
             console.log("max", max)
 
             if (data.length > 0) {
                 templateOcatavesMax = data[data.length - 1]
 
-                octavesCategorisX.categories = filledOctaves
+                octavesCategorisX.categories = octavesCategories
+                octavesMarksCategorisX.categories = octavesCategories
                 octavesCategorisY.max = max
             }
 
@@ -172,21 +178,22 @@ PitchForm {
         let data = Bus.getFullTemplateOctavesData()
         console.log("getFullTemplateOctavesData", data)
 
-        let filledOctaves = []
+        octavesCategories = []
         let max = 0
         for (let i=0; i< data.length - 1; i++) {
             console.log("value: ", data[i])
-            filledOctaves.push(i+1)
+            octavesCategories.push(i+1)
             templateFullOcatavesData.push(data[i])
             if (data[i] > max) max = data[i]
         }
-        console.log("filledFullOctaves", filledOctaves)
+        console.log("octavesCategories", octavesCategories)
         console.log("max", max)
 
         if (data.length > 0) {
             templateFullOcatavesMax = data[data.length - 1]
 
-            octavesCategorisX.categories = filledOctaves
+            octavesCategorisX.categories = octavesCategories
+            octavesMarksCategorisX.categories = octavesCategories
             octavesCategorisY.max = max
         }
 
@@ -241,6 +248,49 @@ PitchForm {
 
         let templateData = Bus.getTemplateDerivativeData(root.showFullPitchSeries)
         derivativeSeries.append("Template", templateData)
+    }
+
+    function showOctavesMarks() {
+        console.log("PitchForm.showOctavesMarks")
+        root.octavesMarksSeries.clear()
+
+        let recordData = Bus.getPitchOcavesMetrics(root.showFullPitchSeries)
+        console.log("PitchForm.showOctavesMarks recordData", recordData)
+        let recordSeries = []
+        for (let i in octavesCategorisX.categories) {
+            recordSeries.push(0)
+        }
+        if (!!recordData[0]) recordSeries[recordData[0]-1] = 1
+        if (!!recordData[1]) recordSeries[recordData[1]-1] = 1
+        if (!!recordData[2]) recordSeries[recordData[2]-1] = 1
+        console.log("PitchForm.showOctavesMarks Record", recordSeries)
+        root.octavesMarksSeries.append("Record", recordSeries)
+
+        let templateData = Bus.getTemplateOcavesMetrics(root.showFullPitchSeries)
+        console.log("PitchForm.showOctavesMarks templateData", templateData)
+        let templateSeries = []
+        for (let j in octavesCategorisX.categories) {
+            templateSeries.push(0)
+        }
+        if (!!templateData[0]) templateSeries[templateData[0]-1] = 1
+        if (!!templateData[1]) templateSeries[templateData[1]-1] = 1
+        if (!!templateData[2]) templateSeries[templateData[2]-1] = 1
+        console.log("PitchForm.showOctavesMarks Template", templateSeries)
+        root.octavesMarksSeries.append("Template", templateSeries)
+    }
+
+    function showOctavesMetrics() {
+        console.log("PitchForm.showOctavesMetrics", root.showFullPitchSeries)
+
+        let recordData = Bus.getPitchOcavesMetrics(root.showFullPitchSeries)
+        if (!!recordData[0]) root.octavesRF0.text = recordData[0]
+        if (!!recordData[3]) root.octavesDF0.text = recordData[3]
+        if (!!recordData[4]) root.octavesAF0.text = recordData[4]
+
+        let templateData = Bus.getTemplateOcavesMetrics(root.showFullPitchSeries)
+        if (!!templateData[0]) root.octavesTemplateRF0.text = templateData[0]
+        if (!!templateData[3]) root.octavesTemplateDF0.text = templateData[3]
+        if (!!templateData[4]) root.octavesTemplateAF0.text = templateData[4]
     }
 
     function showFullPitch() {
@@ -354,6 +404,8 @@ PitchForm {
 
         showOctaves()
         showDerivatives()
+        showOctavesMetrics()
+        showOctavesMarks()
     }
 
     showSegmentsSeriesSwitch.onCheckedChanged: {
@@ -364,5 +416,10 @@ PitchForm {
         }
 
         root.waveSegments.forEach(l => l.visible = root.showSegmentsSeries)
+    }
+
+
+    showMetricsSwitch.onCheckedChanged: {
+        root.showMetrics = showMetricsSwitch.checked
     }
 }

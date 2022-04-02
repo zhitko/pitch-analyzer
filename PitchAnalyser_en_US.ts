@@ -32,54 +32,54 @@
 <context>
     <name>PitchForm.ui</name>
     <message>
-        <location filename="Pages/Pitch/PitchForm.ui.qml" line="40"/>
+        <location filename="Pages/Pitch/PitchForm.ui.qml" line="43"/>
         <source>Prosody</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Pages/Pitch/PitchForm.ui.qml" line="48"/>
+        <location filename="Pages/Pitch/PitchForm.ui.qml" line="51"/>
         <source>Wave</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Pages/Pitch/PitchForm.ui.qml" line="58"/>
+        <location filename="Pages/Pitch/PitchForm.ui.qml" line="61"/>
         <source>Full Pitch</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Pages/Pitch/PitchForm.ui.qml" line="63"/>
+        <location filename="Pages/Pitch/PitchForm.ui.qml" line="66"/>
         <source>Segments</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Pages/Pitch/PitchForm.ui.qml" line="123"/>
+        <location filename="Pages/Pitch/PitchForm.ui.qml" line="126"/>
         <source>Pitch full</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Pages/Pitch/PitchForm.ui.qml" line="164"/>
+        <location filename="Pages/Pitch/PitchForm.ui.qml" line="199"/>
         <source>Record Max: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Pages/Pitch/PitchForm.ui.qml" line="182"/>
+        <location filename="Pages/Pitch/PitchForm.ui.qml" line="217"/>
         <source>Template Max: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Pages/Pitch/PitchForm.ui.qml" line="173"/>
-        <location filename="Pages/Pitch/PitchForm.ui.qml" line="191"/>
+        <location filename="Pages/Pitch/PitchForm.ui.qml" line="208"/>
+        <location filename="Pages/Pitch/PitchForm.ui.qml" line="226"/>
         <source>0</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Pages/Pitch/PitchForm.ui.qml" line="104"/>
+        <location filename="Pages/Pitch/PitchForm.ui.qml" line="107"/>
         <source>Full wave</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Pages/Pitch/PitchForm.ui.qml" line="53"/>
-        <location filename="Pages/Pitch/PitchForm.ui.qml" line="113"/>
+        <location filename="Pages/Pitch/PitchForm.ui.qml" line="56"/>
+        <location filename="Pages/Pitch/PitchForm.ui.qml" line="116"/>
         <source>Pitch</source>
         <translation type="unfinished"></translation>
     </message>

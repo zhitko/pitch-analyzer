@@ -71,6 +71,9 @@ public:
     Q_INVOKABLE QVariantList getPitchFrequencyCount(QString path);
     Q_INVOKABLE QVariantList getTemplatePitchFrequencyCount(QString path);
 
+    Q_INVOKABLE QVariantList getPitchOcavesMetrics(QString path, bool isFull);
+    Q_INVOKABLE QVariantList getTemplateOcavesMetrics(QString path, bool isFull);
+
     Q_INVOKABLE QVariantList getPitchDerivativeCount(QString path, bool isFull);
     Q_INVOKABLE QVariantList getTemplatePitchDerivativeCount(QString path, bool isFull);
 

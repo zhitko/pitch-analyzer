@@ -306,7 +306,8 @@ QVariantList getDerivativeCount(IntonCore::Storage *storage,
         }
     }
 
-    double max = (less_zero>eq_zero) ? ((less_zero>more_zero) ? less_zero : more_zero) : ((eq_zero>more_zero) ? eq_zero : more_zero) ;
+    //double max = (less_zero>eq_zero) ? ((less_zero>more_zero) ? less_zero : more_zero) : ((eq_zero>more_zero) ? eq_zero : more_zero) ;
+    double max = more_zero>less_zero ? more_zero : less_zero;
 
     qDebug() << "getDerivativeCount less_zero" << less_zero;
     qDebug() << "getDerivativeCount more_zero" << more_zero;
@@ -314,9 +315,9 @@ QVariantList getDerivativeCount(IntonCore::Storage *storage,
     qDebug() << "getDerivativeCount max" << max;
 
     QVariantList count;
-    count.append(less_zero / max);
-    count.append(eq_zero / max);
+    //count.append(eq_zero / max);
     count.append(more_zero / max);
+    count.append(less_zero / max);
 
     return count;
 }
@@ -627,6 +628,136 @@ QVariantList Backend::getTemplatePitchFrequencyCount(QString path)
     auto mean = this->getSettingValue(ApplicationConfig::SETTINGS_OCTAVES_HISTOGRAM_MEAN).toBool();
 
     auto result = calculatePitchSegmentsCount(storage, actaves, false, mean);
+
+    return result;
+}
+
+QVariantList getOcavesMetrics(QVariantList data, int min, int max)
+{
+    int CG0 = 0;
+    int CG1 = 0;
+    int CG2 = 0;
+
+    if (min <= 0) min = 0;
+    if (max > data.size()) max = data.size();
+
+    auto sumNF0 = 0.0;
+    auto sumF0 = 0.0;
+    for (int i=min; i<(max-1); i++)
+    {
+        sumF0 += data.at(i).toDouble();
+        sumNF0 += data.at(i).toDouble() * (i+1);
+    }
+    CG0 = round(sumNF0 / sumF0);
+
+    sumNF0 = 0.0;
+    sumF0 = 0.0;
+    for (int i=min; i<(CG0-1); i++)
+    {
+        sumF0 += data.at(i).toDouble();
+        sumNF0 += data.at(i).toDouble() * (i+1);
+    }
+    CG1 = round(sumNF0 / sumF0);
+
+    sumNF0 = 0.0;
+    sumF0 = 0.0;
+    for (int i=(CG0+1); i<(max-1); i++)
+    {
+        sumF0 += data.at(i).toDouble();
+        sumNF0 += data.at(i).toDouble() * (i+1);
+    }
+    CG2 = round(sumNF0 / sumF0);
+
+    int DF0 = CG2 - CG1;
+    int AF0 = (CG2 + CG1) - 2*CG0;
+
+    QVariantList result;
+    result.append(CG0);
+    result.append(CG1);
+    result.append(CG2);
+    result.append(DF0);
+    result.append(AF0);
+    return result;
+}
+
+QVariantList Backend::getPitchOcavesMetrics(QString path, bool isFull)
+{
+    this->initializeRecordCore(path);
+
+    this->core->setPitchConfig(
+        this->getSettingValue(ApplicationConfig::SETTINGS_PITCH_ALGORITHM).toUInt(),
+        this->getSettingValue(ApplicationConfig::SETTINGS_PITCH_OUTPUT_FORMAT).toUInt(),
+        this->getSettingValue(ApplicationConfig::SETTINGS_PITCH_FRAME_SHIFT).toUInt(),
+        this->getSettingValue(ApplicationConfig::SETTINGS_PITCH_RAPT_THRESHOLD).toDouble(),
+        this->getSettingValue(ApplicationConfig::SETTINGS_PITCH_SWIPE_THRESHOLD).toDouble(),
+        this->getSettingValue(ApplicationConfig::SETTINGS_PITCH_SAMPLING_FREQUENCY).toDouble(),
+        this->getSettingValue(ApplicationConfig::SETTINGS_PITCH_MINIMUM_F0).toDouble(),
+        this->getSettingValue(ApplicationConfig::SETTINGS_PITCH_MAXIMUM_F0).toDouble()
+    );
+
+    this->core->setIntensityConfig(
+        this->getSettingValue(ApplicationConfig::SETTINGS_SEGMENTS_FRAME).toUInt(),
+        this->getSettingValue(ApplicationConfig::SETTINGS_SEGMENTS_SHIFT).toUInt(),
+        this->getSettingValue(ApplicationConfig::SETTINGS_SEGMENTS_SMOOTH_FRAME).toUInt(),
+        this->getSettingValue(ApplicationConfig::SETTINGS_SEGMENTS_SMOOTH_FRAME).toUInt()
+    );
+
+    this->core->setSegmentsConfig(
+        this->getSettingValue(ApplicationConfig::SETTINGS_SEGMENTS_SEGMENTS_LENGTH_LIMIT).toUInt()
+    );
+
+    auto storage = this->core->getRecord();
+
+    auto actaves = this->getOctavesSetting();
+
+    auto mean = this->getSettingValue(ApplicationConfig::SETTINGS_OCTAVES_HISTOGRAM_MEAN).toBool();
+    auto min = this->getSettingValue(ApplicationConfig::SETTINGS_OCTAVES_METRICS_MIN).toInt();
+    auto max = this->getSettingValue(ApplicationConfig::SETTINGS_OCTAVES_METRICS_MAX).toInt();
+
+    auto data = calculatePitchSegmentsCount(storage, actaves, !isFull, mean);
+
+    auto result = getOcavesMetrics(data, min, max);
+
+    return result;
+}
+
+QVariantList Backend::getTemplateOcavesMetrics(QString path, bool isFull)
+{
+    this->initializeTemplateCore(path);
+
+    this->core->setPitchConfig(
+        this->getSettingValue(ApplicationConfig::SETTINGS_PITCH_ALGORITHM).toUInt(),
+        this->getSettingValue(ApplicationConfig::SETTINGS_PITCH_OUTPUT_FORMAT).toUInt(),
+        this->getSettingValue(ApplicationConfig::SETTINGS_PITCH_FRAME_SHIFT).toUInt(),
+        this->getSettingValue(ApplicationConfig::SETTINGS_PITCH_RAPT_THRESHOLD).toDouble(),
+        this->getSettingValue(ApplicationConfig::SETTINGS_PITCH_SWIPE_THRESHOLD).toDouble(),
+        this->getSettingValue(ApplicationConfig::SETTINGS_PITCH_SAMPLING_FREQUENCY).toDouble(),
+        this->getSettingValue(ApplicationConfig::SETTINGS_PITCH_MINIMUM_F0).toDouble(),
+        this->getSettingValue(ApplicationConfig::SETTINGS_PITCH_MAXIMUM_F0).toDouble()
+    );
+
+    this->core->setIntensityConfig(
+        this->getSettingValue(ApplicationConfig::SETTINGS_SEGMENTS_FRAME).toUInt(),
+        this->getSettingValue(ApplicationConfig::SETTINGS_SEGMENTS_SHIFT).toUInt(),
+        this->getSettingValue(ApplicationConfig::SETTINGS_SEGMENTS_SMOOTH_FRAME).toUInt(),
+        this->getSettingValue(ApplicationConfig::SETTINGS_SEGMENTS_SMOOTH_FRAME).toUInt()
+    );
+
+    this->core->setSegmentsConfig(
+        this->getSettingValue(ApplicationConfig::SETTINGS_SEGMENTS_SEGMENTS_LENGTH_LIMIT).toUInt()
+    );
+
+    auto storage = this->core->getTemplate();
+
+    auto actaves = this->getOctavesSetting();
+
+    auto mean = this->getSettingValue(ApplicationConfig::SETTINGS_OCTAVES_HISTOGRAM_MEAN).toBool();
+    auto min = this->getSettingValue(ApplicationConfig::SETTINGS_OCTAVES_METRICS_MIN).toInt();
+    auto max = this->getSettingValue(ApplicationConfig::SETTINGS_OCTAVES_METRICS_MAX).toInt();
+
+    auto data = calculatePitchSegmentsCount(storage, actaves, !isFull, mean);
+
+    auto result = getOcavesMetrics(data, min, max);
 
     return result;
 }

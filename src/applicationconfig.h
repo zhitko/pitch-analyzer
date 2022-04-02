@@ -104,6 +104,8 @@ namespace ApplicationConfig {
     static const QString SETTINGS_PITCH_NORMALIZE_BY_OCTAVES = "PitchNormalizeOctavesSeries";
 
     static const QString SETTINGS_OCTAVES_HISTOGRAM_MEAN = "OctavesHistagramMean";
+    static const QString SETTINGS_OCTAVES_METRICS_MIN = "OctavesHistagramMin";
+    static const QString SETTINGS_OCTAVES_METRICS_MAX = "OctavesHistagramMax";
 
     static const QString SETTINGS_SEGMENTS_FRAME = "SegmentsFrame";
     static const QString SETTINGS_SEGMENTS_SHIFT = "SegmentsShift";
@@ -208,6 +210,18 @@ namespace ApplicationConfig {
              {SETTINGS_DESC, "Pitch frequency segments"},
              {SETTINGS_VAL, "32.70;36.95;41.21;43.65;49.00;55.00;61.74;65.41;73.91;82.41;87.31;98.00;110.00;123.48;130.82;147.83;164.81;174.62;196.00;220.00;246.96;261.63;293.66;329.63;349.23;392.00;440.00;493.88;523.25;587.32;659.26;698.46;784.00;880.00;987.75"},
              {SETTINGS_TYPE, SETTINGS_TYPE_DOUBLE_LIST}
+        }},
+        {SETTINGS_OCTAVES_METRICS_MIN,{
+             {SETTINGS_NAME, "Pitch Octaves Min"},
+             {SETTINGS_DESC, "Minimum ocataves"},
+             {SETTINGS_VAL, "2"},
+             {SETTINGS_TYPE, SETTINGS_TYPE_INTEGER}
+        }},
+        {SETTINGS_OCTAVES_METRICS_MAX,{
+             {SETTINGS_NAME, "Pitch Octaves Max"},
+             {SETTINGS_DESC, "Maximum ocataves"},
+             {SETTINGS_VAL, "30"},
+             {SETTINGS_TYPE, SETTINGS_TYPE_INTEGER}
         }}
     };
 

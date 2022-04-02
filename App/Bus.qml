@@ -192,6 +192,22 @@ Item {
         }
     }
 
+    function getPitchOcavesMetrics(isFull) {
+        if (root.recordPath !== "") {
+            return backend.getPitchOcavesMetrics(root.recordPath, isFull)
+        } else {
+            return []
+        }
+    }
+
+    function getTemplateOcavesMetrics(isFull) {
+        if (root.templatePath !== "") {
+            return backend.getTemplateOcavesMetrics(root.templatePath, isFull)
+        } else {
+            return []
+        }
+    }
+
     /*---------------------------------------------------------
       Navigation
       ---------------------------------------------------------*/

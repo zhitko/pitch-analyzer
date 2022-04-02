@@ -14,11 +14,14 @@ Page {
     property alias pitchSeries: pitchSeries
     property alias pitchFullSeries: pitchFullSeries
     property alias octavesSeries: octavesSeries
+    property alias octavesMarksSeries: octavesMarksSeries
     property alias octavesCategorisX: octavesCategorisX
     property alias octavesCategorisY: octavesCategorisY
-    //property alias derivativeSeries: derivativeSeries
-    //property alias derivativeCategorisX: derivativeCategorisX
-    //property alias derivativeCategorisY: derivativeCategorisY
+    property alias octavesMarksCategorisX: octavesMarksCategorisX
+    property alias octavesMarksCategorisY: octavesMarksCategorisY
+    property alias derivativeSeries: derivativeSeries
+    property alias derivativeCategorisX: derivativeCategorisX
+    property alias derivativeCategorisY: derivativeCategorisY
     property alias axisX: axisX
     property alias axisY: axisY
     property alias zoomInButton: zoomIn.button
@@ -26,11 +29,19 @@ Page {
     property alias zoomFitButton: zoomFit.button
     property alias octavesMax: octavesMax
     property alias octavesFullMax: octavesFullMax
+    property alias octavesRF0: octavesRF0
+    property alias octavesDF0: octavesDF0
+    property alias octavesAF0: octavesAF0
+    property alias octavesTemplateRF0: octavesTemplateRF0
+    property alias octavesTemplateDF0: octavesTemplateDF0
+    property alias octavesTemplateAF0: octavesTemplateAF0
 
     property alias showWaveSeriesSwitch: showWaveSeriesSwitch
     property alias showPitchSeriesSwitch: showPitchSeriesSwitch
     property alias showFullPitchSeriesSwitch: showFullPitchSeriesSwitch
     property alias showSegmentsSeriesSwitch: showSegmentsSeriesSwitch
+    property alias showMetricsSwitch: showMetricsSwitch
+    property bool showMetrics: true
     property bool showWaveSeries: false
     property bool showPitchSeries: true
     property bool showFullPitchSeries: false
@@ -66,6 +77,11 @@ Page {
             text: qsTr("Segments")
             checked: showSegmentsSeries
         }
+        Switch {
+            id: showMetricsSwitch
+            text: qsTr("CG0, CG1 & CG2")
+            checked: showMetrics
+        }
     }
 
     ScrollView {
@@ -75,6 +91,7 @@ Page {
         contentWidth: wave.width
         height: parent.height
         width: parent.width
+        bottomPadding: 50
 
         ValueAxis {
             id: axisY
@@ -93,7 +110,7 @@ Page {
 
         ChartView {
             id: wave
-            height: 400
+            height: 150
             width: axisX.max * root.zoom
             legend.visible: false
 
@@ -132,13 +149,133 @@ Page {
             }
         }
 
-        /*ChartView {
-            id: derivatives
-            height: 400
-            width: 150
-
+        ColumnLayout {
+            id: metrics
             anchors.top: wave.bottom
             anchors.left: wave.left
+            anchors.right: wave.right
+            visible: showMetrics
+
+            height: showMetrics ? 50: 0
+
+            RowLayout {
+                Layout.alignment: Qt.AlignHCenter
+                Label {
+                    text: qsTr("Record Max: ")
+                    font.pixelSize: 20
+                    color: "blue"
+                }
+                Label {
+                    id: octavesMax
+                    text: qsTr("0")
+                    font.pixelSize: 20
+                    rightPadding: 15
+                    color: "blue"
+                }
+
+                Label {
+                    text: qsTr("R(F0): ")
+                    font.pixelSize: 20
+                    color: "blue"
+                }
+                Label {
+                    id: octavesRF0
+                    text: qsTr("0")
+                    font.pixelSize: 20
+                    rightPadding: 15
+                    color: "blue"
+                }
+
+                Label {
+                    text: qsTr("D(F0): ")
+                    font.pixelSize: 20
+                    color: "blue"
+                }
+                Label {
+                    id: octavesDF0
+                    text: qsTr("0")
+                    font.pixelSize: 20
+                    rightPadding: 15
+                    color: "blue"
+                }
+
+                Label {
+                    text: qsTr("A(F0): ")
+                    font.pixelSize: 20
+                    color: "blue"
+                }
+                Label {
+                    id: octavesAF0
+                    text: qsTr("0")
+                    font.pixelSize: 20
+                    rightPadding: 15
+                    color: "blue"
+                }
+            }
+
+            RowLayout {
+                Layout.alignment: Qt.AlignHCenter
+                Label {
+                    text: qsTr("Template Max: ")
+                    font.pixelSize: 20
+                    color: "green"
+                }
+                Label {
+                    id: octavesFullMax
+                    text: qsTr("0")
+                    font.pixelSize: 20
+                    rightPadding: 15
+                    color: "green"
+                }
+
+                Label {
+                    text: qsTr("R(F0): ")
+                    font.pixelSize: 20
+                    color: "green"
+                }
+                Label {
+                    id: octavesTemplateRF0
+                    text: qsTr("0")
+                    font.pixelSize: 20
+                    rightPadding: 15
+                    color: "green"
+                }
+
+                Label {
+                    text: qsTr("D(F0): ")
+                    font.pixelSize: 20
+                    color: "green"
+                }
+                Label {
+                    id: octavesTemplateDF0
+                    text: qsTr("0")
+                    font.pixelSize: 20
+                    rightPadding: 15
+                    color: "green"
+                }
+
+                Label {
+                    text: qsTr("A(F0): ")
+                    font.pixelSize: 20
+                    color: "green"
+                }
+                Label {
+                    id: octavesTemplateAF0
+                    text: qsTr("0")
+                    font.pixelSize: 20
+                    rightPadding: 15
+                    color: "green"
+                }
+            }
+        }
+
+        ChartView {
+            id: derivatives
+            height: 350
+            width: 100
+
+            anchors.top: metrics.bottom
+            anchors.left: metrics.left
 
             margins.bottom: 0
             margins.top: 0
@@ -151,31 +288,34 @@ Page {
                 barWidth: 1
                 axisX: BarCategoryAxis {
                     id: derivativeCategorisX
-                    labelsFont.pointSize: 10
-                    categories: ['&#9661;','=','&#9651;']
+                    labelsFont.pointSize: 8
+                    labelsFont.bold: true
+                    categories: ['+','-']
                 }
                 axisY: ValueAxis {
                     id: derivativeCategorisY
                     max: 1
                     min: 0
-                    labelsFont.pointSize: 15
+                    labelsFont.pointSize: 8
+                    labelsFont.bold: true
                 }
             }
-        }*/
+        }
 
         ChartView {
             id: octaves
-            height: 400
+            height: 300
 
-            anchors.top: wave.bottom
-            //anchors.left: derivatives.right
-            anchors.left: wave.left
-            anchors.right: wave.right
+            anchors.top: metrics.bottom
+            anchors.left: derivatives.right
+            anchors.right: metrics.right
 
             margins.bottom: 0
             margins.top: 0
             margins.left: 0
             margins.right: 0
+
+            legend.visible: false
 
             BarSeries {
                 id: octavesSeries
@@ -183,52 +323,50 @@ Page {
                 axisX: BarCategoryAxis {
                     id: octavesCategorisX
                     labelsFont.bold: true
-                    labelsFont.pointSize: 15
+                    labelsFont.pointSize: 8
                 }
                 axisY: ValueAxis {
                     id: octavesCategorisY
                     max: 1
                     min: 0
                     labelsFont.bold: true
-                    labelsFont.pointSize: 15
+                    labelsFont.pointSize: 8
                 }
             }
         }
 
-        Label {
-            id: octavesMaxLabel
-            text: qsTr("Record Max: ")
-            font.pixelSize: 20
-            color: "blue"
-            anchors.top: octaves.top
+        ChartView {
+            id: octavesMarks
+            height: 50
+
+            anchors.top: octaves.bottom
             anchors.left: octaves.left
-        }
+            anchors.right: octaves.right
 
-        Label {
-            id: octavesMax
-            text: qsTr("0")
-            font.pixelSize: 20
-            color: "blue"
-            anchors.top: octaves.top
-            anchors.left: octavesMaxLabel.right
-        }
+            margins.bottom: 0
+            margins.top: 0
+            margins.left: 30
+            margins.right: 0
 
-        Label {
-            id: octavesFullMaxLabel
-            text: qsTr("Template Max: ")
-            font.pixelSize: 20
-            color: "green"
-            anchors.top: octavesMax.bottom
-            anchors.left: octaves.left
-        }
+            legend.visible: false
 
-        Label {
-            id: octavesFullMax
-            text: qsTr("0")
-            font.pixelSize: 20
-            color: "green"
-            anchors.top: octavesMax.bottom
-            anchors.left: octavesFullMaxLabel.right
+            BarSeries {
+                id: octavesMarksSeries
+                barWidth: 1
+                axisX: BarCategoryAxis {
+                    id: octavesMarksCategorisX
+                    labelsFont.pointSize: 0
+                    visible: false
+                }
+                axisY: ValueAxis {
+                    id: octavesMarksCategorisY
+                    labelsFont.pointSize: 8
+                    max: 1
+                    min: 0
+                    tickCount: 2
+                    visible: false
+                }
+            }
         }
     }
 
